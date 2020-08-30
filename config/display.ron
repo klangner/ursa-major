@@ -1,3 +1,4 @@
 (
-  title: "sprite_camera_follow",
+  title: "Rogelike",
+  dimensions: Some((800, 500)),
 )
