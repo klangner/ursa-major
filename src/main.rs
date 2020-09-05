@@ -15,6 +15,7 @@ use amethyst::{
 };
 
 use play_state::{PlayState, MapTile};
+use play_state::player_system::PlayerSystem;
 
 
 fn main() -> amethyst::Result<()> {
@@ -32,6 +33,7 @@ fn main() -> amethyst::Result<()> {
             InputBundle::<StringBindings>::new()
                 .with_bindings_from_file("config/input.ron")?,
         )?
+        .with(PlayerSystem::new(), "player_system", &["input_system"])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(

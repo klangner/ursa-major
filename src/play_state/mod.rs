@@ -1,4 +1,5 @@
 mod components;
+pub mod player_system;
 
 use amethyst::{
     assets::{AssetStorage, Loader},
@@ -43,7 +44,7 @@ impl Tile for MapTile {
 
         // Check if there is renderable entity at the tile
         for (r, p) in (&renderables, &positions).join() {
-            if p.x == point.x && p.y == point.y {
+            if p.x == point.x as i32 && p.y == point.y as i32 {
                 return Some(r.glyph);
             }
         }
@@ -57,14 +58,19 @@ impl Tile for MapTile {
         }
     }
 
-    fn tint(&self, p: Point3<u32>, world: &World) -> Srgba {
-        let map = world.read_resource::<Map>();
-        let pos = Some(Point::new(p.x as usize, p.y as usize));
-        if map.starting_point == pos || map.exit_point == pos {
-            Srgba::new(1.0, 1.0, 0.0, 1.0)
-        } else {
-            Srgba::new(1.0, 1.0, 1.0, 1.0)
+    fn tint(&self, tile: Point3<u32>, world: &World) -> Srgba {
+        let renderables = world.read_storage::<Renderable>();
+        let positions = world.read_storage::<Position>();
+        let point = Point::new(tile.x as usize, tile.y as usize);
+
+        // Check if there is renderable entity at the tile
+        for (_, p) in (&renderables, &positions).join() {
+            if p.x == point.x as i32 && p.y == point.y as i32 {
+                return Srgba::new(1.0, 1.0, 0.0, 1.0);
+            }
         }
+        
+        Srgba::new(1.0, 1.0, 1.0, 1.0)
     }
 }
 
@@ -157,7 +163,7 @@ impl SimpleState for PlayState {
             .build();
 
         let player_pos = map.starting_point.unwrap_or(Point::new(0, 0));
-        let _player = init_player(world, Position::new(player_pos.x, player_pos.y));
+        let _player = init_player(world, Position::new(player_pos.x as i32, player_pos.y as i32));
         world.insert(map);
     }
 

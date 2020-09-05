@@ -1,21 +1,13 @@
 
 (
     axes: {
-        "camera_x": Emulated(
+        "player_x": Emulated(
             pos: Key(D),
             neg: Key(A),
         ),
-        "camera_y": Emulated(
+        "player_y": Emulated(
             pos: Key(W),
             neg: Key(S),
-        ),
-         "camera_scale": Emulated(
-                pos: Key(E),
-                neg: Key(Q),
-            ),
-        "camera_z": Emulated(
-            pos: Key(R),
-            neg: Key(F),
         ),
     },
     actions: {

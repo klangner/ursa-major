@@ -7,12 +7,12 @@ impl Component for Player {
 }
 
 pub struct Position {
-    pub x: usize,
-    pub y: usize
+    pub x: i32,
+    pub y: i32
 }
 
 impl Position {
-    pub fn new(x: usize, y: usize) -> Position {
+    pub fn new(x: i32, y: i32) -> Position {
         Position {x, y}
     }
 }
