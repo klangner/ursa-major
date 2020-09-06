@@ -2,12 +2,12 @@
 (
     axes: {
         "player_x": Emulated(
-            pos: Key(D),
-            neg: Key(A),
+            pos: Key(Right),
+            neg: Key(Left),
         ),
         "player_y": Emulated(
-            pos: Key(W),
-            neg: Key(S),
+            pos: Key(Up),
+            neg: Key(Down),
         ),
     },
     actions: {
