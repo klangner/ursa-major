@@ -15,6 +15,11 @@ impl Position {
     pub fn new(x: i32, y: i32) -> Position {
         Position {x, y}
     }
+
+    pub fn translate(&mut self, dx: i32, dy: i32) {
+        self.x += dx;
+        self.y += dy;
+    }
 }
 
 impl Component for Position {

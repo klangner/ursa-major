@@ -1,4 +1,5 @@
 mod components;
+pub mod monster_ai_system;
 pub mod player_system;
 
 use amethyst::{
@@ -117,6 +118,12 @@ fn init_player(world: &mut World, pos: Position) -> Entity {
         .build()
 }
 
+#[derive(PartialEq, Copy, Clone)]
+pub enum RunState { 
+    PlayerTurn, 
+    MonsterTurn, 
+}
+
 pub struct PlayState;
 
 impl SimpleState for PlayState {
@@ -165,6 +172,7 @@ impl SimpleState for PlayState {
         let player_pos = map.starting_point.unwrap_or(Point::new(0, 0));
         let _player = init_player(world, Position::new(player_pos.x as i32, player_pos.y as i32));
         world.insert(map);
+        world.insert(RunState::PlayerTurn);
     }
 
     fn handle_event(

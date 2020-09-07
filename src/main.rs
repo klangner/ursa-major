@@ -16,6 +16,7 @@ use amethyst::{
 
 use play_state::{PlayState, MapTile};
 use play_state::player_system::PlayerSystem;
+use play_state::monster_ai_system::MonsterAISystem;
 
 
 fn main() -> amethyst::Result<()> {
@@ -34,6 +35,7 @@ fn main() -> amethyst::Result<()> {
                 .with_bindings_from_file("config/input.ron")?,
         )?
         .with(PlayerSystem::new(), "player_system", &["input_system"])
+        .with(MonsterAISystem::new(), "monster_ai_system", &["player_system"])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(

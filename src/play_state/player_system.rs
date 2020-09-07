@@ -1,54 +1,49 @@
+use std::time::SystemTime;
 use amethyst::derive::SystemDesc;
-use amethyst::ecs::{Join, Read, ReadStorage, System, SystemData, WriteStorage};
+use amethyst::ecs::{Join, Read, ReadExpect, ReadStorage, System, SystemData, WriteExpect, WriteStorage};
 use amethyst::input::{InputHandler, StringBindings};
 
 use mapgen::dungeon::map::{Map, TileType};
 use super::components::{Position, Player};
+use super::RunState;
 
 
 
 #[derive(SystemDesc)]
 pub struct PlayerSystem {
-    last_x: f32,
-    last_y: f32
+    last_time: SystemTime,
 }
 
 impl PlayerSystem {
     pub fn new() -> PlayerSystem {
-        PlayerSystem{ last_x: 0.0, last_y: 0.0}
+        PlayerSystem {last_time: SystemTime::now()}
     }
 }
 
 impl<'s> System<'s> for PlayerSystem {
     type SystemData = (
-        Read<'s, Map>,
+        ReadExpect<'s, Map>,
+        WriteExpect<'s, RunState>,
         WriteStorage<'s, Position>,
         ReadStorage<'s, Player>,
         Read<'s, InputHandler<StringBindings>>,
     );
 
-    fn run(&mut self, (map, mut positions, players, input): Self::SystemData) {
+    fn run(&mut self, (map, mut state, mut positions, players, input): Self::SystemData) {
+        let dt = SystemTime::now().duration_since(self.last_time).expect("Time problem?");
+        if dt.as_millis() < 500 || *state != RunState::PlayerTurn {return;}
+
         for (_player, position) in (&players, &mut positions).join() {
-            if let Some(player_x) = input.axis_value("player_x") {
-                let x = position.x + player_x as i32;
-                let tile_type = map.at(x as usize, position.y as usize);
-                if x > 0 && x < map.width as i32 
-                    && tile_type == TileType::Floor 
-                    && player_x != self.last_x 
-                {
-                    position.x = x;
-                    self.last_x = player_x;
-                }
-            }
-            if let Some(player_y) = input.axis_value("player_y") {
-                let y = position.y - player_y as i32;
-                let tile_type = map.at(position.x as usize, y as usize);
-                if y > 0 && y < map.height as i32 
-                    && tile_type == TileType::Floor 
-                    && player_y != self.last_y 
-                {
-                    position.y = y;
-                    self.last_y = player_y;
+            let dx = input.axis_value("player_x").unwrap_or(0.0) as i32;
+            let dy = -input.axis_value("player_y").unwrap_or(0.0) as i32;
+            if dx != 0 || dy != 0 {
+                let new_x = position.x + dx;
+                let new_y = position.y + dy;
+                let tile_type = map.at(new_x as usize, new_y as usize);
+                if tile_type == TileType::Floor {
+                    position.translate(dx, dy);
+                    *state = RunState::MonsterTurn;
+                    self.last_time = SystemTime::now();
                 }
             }
         }
