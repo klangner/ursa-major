@@ -31,7 +31,7 @@ impl<'s> System<'s> for PlayerSystem {
 
     fn run(&mut self, (map, mut state, mut positions, players, input): Self::SystemData) {
         let dt = SystemTime::now().duration_since(self.last_time).expect("Time problem?");
-        if dt.as_millis() < 500 || *state != RunState::PlayerTurn {return;}
+        if dt.as_millis() < 200 || *state != RunState::PlayerTurn {return;}
 
         for (_player, position) in (&players, &mut positions).join() {
             let dx = input.axis_value("player_x").unwrap_or(0.0) as i32;

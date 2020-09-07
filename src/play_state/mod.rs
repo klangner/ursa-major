@@ -1,4 +1,5 @@
 mod components;
+pub mod camera_system;
 pub mod monster_ai_system;
 pub mod player_system;
 
