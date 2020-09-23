@@ -24,14 +24,9 @@ use amethyst::{
     window::ScreenDimensions,
     winit,
 };
-use mapgen::dungeon::{
-    MapBuilder,
-    map::{Map, Point, TileType},
-    cellular_automata::CellularAutomataGen,
-    starting_point::{AreaStartingPosition, XStart, YStart},
-    cull_unreachable::CullUnreachable,
-    distant_exit::DistantExit,
-};
+use mapgen;
+use mapgen::filter::*;
+use mapgen::geometry::Point;
 use components::*;
 
 
@@ -39,7 +34,7 @@ use components::*;
 pub struct MapTile;
 impl Tile for MapTile {
     fn sprite(&self, tile: Point3<u32>, world: &World) -> Option<usize> {
-        let map = world.read_resource::<Map>();
+        let map = world.read_resource::<mapgen::Map>();
         let renderables = world.read_storage::<Renderable>();
         let positions = world.read_storage::<Position>();
         let point = Point::new(tile.x as usize, tile.y as usize);
@@ -53,7 +48,7 @@ impl Tile for MapTile {
 
         if map.exit_point == Some(point) {
             Some(12)
-        } else if map.at(point.x, point.y) == TileType::Wall {
+        } else if map.at(point.x, point.y) == mapgen::TileType::Wall {
             Some(60)
         } else {
             Some(19)
@@ -101,12 +96,13 @@ fn init_camera(world: &mut World, transform: Transform, camera: Camera) -> Entit
         .build()
 }
 
-fn generate_map() -> Map {
-    MapBuilder::new(Box::new(CellularAutomataGen::new(80, 50)))
+fn generate_map() -> mapgen::Map {
+    mapgen::MapBuilder::new()
+        .with(CellularAutomata::new())
         .with(AreaStartingPosition::new(XStart::CENTER, YStart::CENTER))
         .with(CullUnreachable::new())
         .with(DistantExit::new())
-        .build_map()
+        .build_map(80, 50)
 }
 
 fn init_player(world: &mut World, pos: Position) -> Entity {

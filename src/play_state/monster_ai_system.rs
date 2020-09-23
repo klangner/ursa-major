@@ -1,6 +1,6 @@
 use amethyst::derive::SystemDesc;
 use amethyst::ecs::{ReadExpect, System, SystemData, WriteExpect};
-use mapgen::dungeon::map::Map;
+use mapgen::Map;
 use super::RunState;
 
 

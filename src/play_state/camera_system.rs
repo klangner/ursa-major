@@ -4,7 +4,7 @@ use amethyst::{
     ecs::{Join, ReadExpect, System, SystemData, ReadStorage, WriteStorage},
     renderer::Camera,
 };
-use mapgen::dungeon::map::Map;
+use mapgen::Map;
 use super::components::{Position, Player};
 
 

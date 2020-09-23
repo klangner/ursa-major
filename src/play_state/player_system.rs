@@ -3,7 +3,7 @@ use amethyst::derive::SystemDesc;
 use amethyst::ecs::{Join, Read, ReadExpect, ReadStorage, System, SystemData, WriteExpect, WriteStorage};
 use amethyst::input::{InputHandler, StringBindings};
 
-use mapgen::dungeon::map::{Map, TileType};
+use mapgen::{Map, TileType};
 use super::components::{Position, Player};
 use super::RunState;
 
