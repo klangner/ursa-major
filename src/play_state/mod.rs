@@ -97,13 +97,13 @@ fn init_camera(world: &mut World, transform: Transform, camera: Camera) -> Entit
 }
 
 fn generate_map() -> mapgen::Map {
-    mapgen::MapBuilder::new()
+    mapgen::MapBuilder::new(80, 50)
         .with(NoiseGenerator::new(0.55))
         .with(CellularAutomata::new())
         .with(AreaStartingPosition::new(XStart::CENTER, YStart::CENTER))
         .with(CullUnreachable::new())
         .with(DistantExit::new())
-        .build_map(80, 50)
+        .build()
 }
 
 fn init_player(world: &mut World, pos: Position) -> Entity {
