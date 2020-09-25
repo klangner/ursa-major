@@ -98,6 +98,7 @@ fn init_camera(world: &mut World, transform: Transform, camera: Camera) -> Entit
 
 fn generate_map() -> mapgen::Map {
     mapgen::MapBuilder::new()
+        .with(NoiseGenerator::new(0.55))
         .with(CellularAutomata::new())
         .with(AreaStartingPosition::new(XStart::CENTER, YStart::CENTER))
         .with(CullUnreachable::new())
