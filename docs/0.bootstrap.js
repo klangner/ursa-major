@@ -1,0 +1,61 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[0],{
+
+/***/ "../pkg/ursa_major.js":
+/*!****************************!*\
+  !*** ../pkg/ursa_major.js ***!
+  \****************************/
+/*! exports provided: Cell, Position, World, __wbindgen_throw */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ursa_major_bg.wasm */ \"../pkg/ursa_major_bg.wasm\");\n/* harmony import */ var _ursa_major_bg_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ursa_major_bg.js */ \"../pkg/ursa_major_bg.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Cell\", function() { return _ursa_major_bg_js__WEBPACK_IMPORTED_MODULE_1__[\"Cell\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"Position\", function() { return _ursa_major_bg_js__WEBPACK_IMPORTED_MODULE_1__[\"Position\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"World\", function() { return _ursa_major_bg_js__WEBPACK_IMPORTED_MODULE_1__[\"World\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"__wbindgen_throw\", function() { return _ursa_major_bg_js__WEBPACK_IMPORTED_MODULE_1__[\"__wbindgen_throw\"]; });\n\n\n\n\n//# sourceURL=webpack:///../pkg/ursa_major.js?");
+
+/***/ }),
+
+/***/ "../pkg/ursa_major_bg.js":
+/*!*******************************!*\
+  !*** ../pkg/ursa_major_bg.js ***!
+  \*******************************/
+/*! exports provided: Cell, Position, World, __wbindgen_throw */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* WEBPACK VAR INJECTION */(function(module) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Cell\", function() { return Cell; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Position\", function() { return Position; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"World\", function() { return World; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"__wbindgen_throw\", function() { return __wbindgen_throw; });\n/* harmony import */ var _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ursa_major_bg.wasm */ \"../pkg/ursa_major_bg.wasm\");\n\n\nconst lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;\n\nlet cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true });\n\ncachedTextDecoder.decode();\n\nlet cachegetUint8Memory0 = null;\nfunction getUint8Memory0() {\n    if (cachegetUint8Memory0 === null || cachegetUint8Memory0.buffer !== _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"memory\"].buffer) {\n        cachegetUint8Memory0 = new Uint8Array(_ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"memory\"].buffer);\n    }\n    return cachegetUint8Memory0;\n}\n\nfunction getStringFromWasm0(ptr, len) {\n    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));\n}\n/**\n*/\nconst Cell = Object.freeze({ Floor:0,\"0\":\"Floor\",Wall:1,\"1\":\"Wall\", });\n/**\n*/\nclass Position {\n\n    static __wrap(ptr) {\n        const obj = Object.create(Position.prototype);\n        obj.ptr = ptr;\n\n        return obj;\n    }\n\n    free() {\n        const ptr = this.ptr;\n        this.ptr = 0;\n\n        _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"__wbg_position_free\"](ptr);\n    }\n    /**\n    * @param {number} col\n    * @param {number} row\n    * @returns {Position}\n    */\n    static new(col, row) {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"position_new\"](col, row);\n        return Position.__wrap(ret);\n    }\n    /**\n    * @returns {number}\n    */\n    col() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"position_col\"](this.ptr);\n        return ret >>> 0;\n    }\n    /**\n    * @returns {number}\n    */\n    row() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"position_row\"](this.ptr);\n        return ret >>> 0;\n    }\n}\n/**\n*/\nclass World {\n\n    static __wrap(ptr) {\n        const obj = Object.create(World.prototype);\n        obj.ptr = ptr;\n\n        return obj;\n    }\n\n    free() {\n        const ptr = this.ptr;\n        this.ptr = 0;\n\n        _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"__wbg_world_free\"](ptr);\n    }\n    /**\n    * @param {number} width\n    * @param {number} height\n    * @param {number} seed\n    * @returns {World}\n    */\n    static new_simple_rooms(width, height, seed) {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"world_new_simple_rooms\"](width, height, seed);\n        return World.__wrap(ret);\n    }\n    /**\n    * @returns {number}\n    */\n    width() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"position_col\"](this.ptr);\n        return ret >>> 0;\n    }\n    /**\n    * @returns {number}\n    */\n    height() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"world_height\"](this.ptr);\n        return ret >>> 0;\n    }\n    /**\n    * @returns {number}\n    */\n    tiles() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"world_tiles\"](this.ptr);\n        return ret;\n    }\n    /**\n    * @returns {Position}\n    */\n    player_pos() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"world_player_pos\"](this.ptr);\n        return Position.__wrap(ret);\n    }\n    /**\n    * @returns {Position}\n    */\n    exit_pos() {\n        var ret = _ursa_major_bg_wasm__WEBPACK_IMPORTED_MODULE_0__[\"world_exit_pos\"](this.ptr);\n        return Position.__wrap(ret);\n    }\n}\n\nconst __wbindgen_throw = function(arg0, arg1) {\n    throw new Error(getStringFromWasm0(arg0, arg1));\n};\n\n\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../www/node_modules/webpack/buildin/harmony-module.js */ \"./node_modules/webpack/buildin/harmony-module.js\")(module)))\n\n//# sourceURL=webpack:///../pkg/ursa_major_bg.js?");
+
+/***/ }),
+
+/***/ "../pkg/ursa_major_bg.wasm":
+/*!*********************************!*\
+  !*** ../pkg/ursa_major_bg.wasm ***!
+  \*********************************/
+/*! exports provided: memory, __wbg_world_free, __wbg_position_free, world_new_simple_rooms, world_height, world_tiles, world_player_pos, world_exit_pos, position_new, position_col, position_row, world_width */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("\"use strict\";\n// Instantiate WebAssembly module\nvar wasmExports = __webpack_require__.w[module.i];\n__webpack_require__.r(exports);\n// export exports from WebAssembly module\nfor(var name in wasmExports) if(name != \"__webpack_init__\") exports[name] = wasmExports[name];\n// exec imports from WebAssembly module (for esm order)\n/* harmony import */ var m0 = __webpack_require__(/*! ./ursa_major_bg.js */ \"../pkg/ursa_major_bg.js\");\n\n\n// exec wasm module\nwasmExports[\"__webpack_init__\"]()\n\n//# sourceURL=webpack:///../pkg/ursa_major_bg.wasm?");
+
+/***/ }),
+
+/***/ "./index.js":
+/*!******************!*\
+  !*** ./index.js ***!
+  \******************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var ursa_major__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ursa-major */ \"../pkg/ursa_major.js\");\n/* harmony import */ var ursa_major_ursa_major_bg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ursa-major/ursa_major_bg */ \"../pkg/ursa_major_bg.wasm\");\n\n\n\nconst CANVAS_SIZE = 750;\nconst GRID_COLS = 80;\nconst GRID_ROWS = 50;\nconst CELL_SIZE = CANVAS_SIZE/GRID_ROWS;\nconst TILE_SIZE = 39;\n\n// Init canvas\nconst canvas = document.getElementById(\"ursa-canvas\");\ncanvas.height = CELL_SIZE * GRID_ROWS;\ncanvas.width = CELL_SIZE * GRID_COLS;\nconst ctx = canvas.getContext('2d');\n// API to the WASM\nlet world = null;\n\n// Load tiles bitmap\nlet tiles_image = new Image();\ntiles_image.src = 'assets/tiles.png';\n\nfunction newMap() {\n    var seed = Date.now();\n    world = ursa_major__WEBPACK_IMPORTED_MODULE_0__[\"World\"].new_simple_rooms(GRID_COLS, GRID_ROWS, seed);\n    requestAnimationFrame(renderLoop);\n}\n\nconst renderLoop = () => {\n    if (world != null) {\n        // world.tick();\n    }\n    drawCells();\n    requestAnimationFrame(renderLoop);\n};\n\nconst getIndex = (row, column) => {\n    return row * GRID_COLS + column;\n};\n\nconst is_inner_wall = (tiles, col, row) => {\n    for (let c = Math.max(col - 1, 0); c < Math.min(col + 2, GRID_COLS); c++) {\n        for (let r = Math.max(row - 1, 0); r < Math.min(row + 2, GRID_ROWS); r++) {\n            if ((c != col || r != row) && tiles[getIndex(r, c)] == ursa_major__WEBPACK_IMPORTED_MODULE_0__[\"Cell\"].Floor) {\n                return false;\n            }\n        }\n    }\n\n    return true;\n}\n\nconst draw_tile = (ctx, row, col, tile_type) => {\n    var tile_x = 0;\n    var tile_y = 0;\n    if (tile_type == \"floor\") {\n        tile_x = 3;\n        tile_y = 2;\n    } else if (tile_type == \"wall\") {\n        tile_x = 0;\n        tile_y = 3;\n    } else if (tile_type == \"player\") {\n        tile_x = 0;\n        tile_y = 8;\n    } else if (tile_type == \"exit\") {\n        tile_x = 10;\n        tile_y = 1;\n    } else {\n        tile_x = 18;\n        tile_y = 0;\n    }\n\n    ctx.drawImage(\n        tiles_image,\n        tile_x * TILE_SIZE + 3,\n        tile_y * TILE_SIZE + 3,\n        TILE_SIZE - 3,\n        TILE_SIZE - 3,\n        col * CELL_SIZE,\n        row * CELL_SIZE,\n        CELL_SIZE,\n        CELL_SIZE);\n\n}\n\nconst drawCells = () => {\n    const tilesPtr = world.tiles();\n    const tiles = new Uint8Array(ursa_major_ursa_major_bg__WEBPACK_IMPORTED_MODULE_1__[\"memory\"].buffer, tilesPtr, GRID_COLS * GRID_ROWS);\n\n    // tiles\n    for (let row = 0; row < GRID_ROWS; row++) {\n        for (let col = 0; col < GRID_COLS; col++) {\n            const idx = getIndex(row, col);\n            if (tiles[idx] == ursa_major__WEBPACK_IMPORTED_MODULE_0__[\"Cell\"].Floor) {\n                draw_tile(ctx, row, col, \"floor\");\n            } else if (is_inner_wall(tiles, col, row)){\n                draw_tile(ctx, row, col, \"inner-wall\");\n            } else {\n                draw_tile(ctx, row, col, \"wall\");\n            }\n        }\n    }\n\n    // Player position\n    let player = world.player_pos();\n    draw_tile(ctx, player.row(), player.col(), \"player\");\n\n    // Exit position\n    let exit = world.exit_pos();\n    draw_tile(ctx, exit.row(), exit.col(), \"exit\");\n};\n\nnewMap();\n\n\n//# sourceURL=webpack:///./index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/harmony-module.js":
+/*!*******************************************!*\
+  !*** (webpack)/buildin/harmony-module.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = function(originalModule) {\n\tif (!originalModule.webpackPolyfill) {\n\t\tvar module = Object.create(originalModule);\n\t\t// module.parent = undefined by default\n\t\tif (!module.children) module.children = [];\n\t\tObject.defineProperty(module, \"loaded\", {\n\t\t\tenumerable: true,\n\t\t\tget: function() {\n\t\t\t\treturn module.l;\n\t\t\t}\n\t\t});\n\t\tObject.defineProperty(module, \"id\", {\n\t\t\tenumerable: true,\n\t\t\tget: function() {\n\t\t\t\treturn module.i;\n\t\t\t}\n\t\t});\n\t\tObject.defineProperty(module, \"exports\", {\n\t\t\tenumerable: true\n\t\t});\n\t\tmodule.webpackPolyfill = 1;\n\t}\n\treturn module;\n};\n\n\n//# sourceURL=webpack:///(webpack)/buildin/harmony-module.js?");
+
+/***/ })
+
+}]);
