@@ -1,4 +1,4 @@
-import {Cell, World} from "ursa-major";
+import {Cell, Action, Game} from "ursa-major";
 import { memory } from "ursa-major/ursa_major_bg";
 
 const CANVAS_SIZE = 750;
@@ -13,7 +13,7 @@ canvas.height = CELL_SIZE * GRID_ROWS;
 canvas.width = CELL_SIZE * GRID_COLS;
 const ctx = canvas.getContext('2d');
 // API to the WASM
-let world = null;
+let game = null;
 
 // Load tiles bitmap
 let tiles_image = new Image();
@@ -21,13 +21,13 @@ tiles_image.src = 'assets/tiles.png';
 
 function newMap() {
     var seed = Date.now();
-    world = World.new_simple_rooms(GRID_COLS, GRID_ROWS, seed);
+    game = Game.new(GRID_COLS, GRID_ROWS, seed);
     requestAnimationFrame(renderLoop);
 }
 
 const renderLoop = () => {
-    if (world != null) {
-        // world.tick();
+    if (game != null) {
+        game.tick();
     }
     drawCells();
     requestAnimationFrame(renderLoop);
@@ -83,7 +83,7 @@ const draw_tile = (ctx, row, col, tile_type) => {
 }
 
 const drawCells = () => {
-    const tilesPtr = world.tiles();
+    const tilesPtr = game.tiles();
     const tiles = new Uint8Array(memory.buffer, tilesPtr, GRID_COLS * GRID_ROWS);
 
     // tiles
@@ -101,12 +101,31 @@ const drawCells = () => {
     }
 
     // Player position
-    let player = world.player_pos();
+    let player = game.player_pos();
     draw_tile(ctx, player.row(), player.col(), "player");
 
     // Exit position
-    let exit = world.exit_pos();
+    let exit = game.exit_pos();
     draw_tile(ctx, exit.row(), exit.col(), "exit");
+};
+
+window.addEventListener('keydown', onkeydown, true);
+
+function onkeydown(event) { 
+    if (event.code == "ArrowUp") {
+        game.execute_action(Action.MoveUp)
+        return event.preventDefault();
+    } else if (event.code == "ArrowDown") {
+        game.execute_action(Action.MoveDown)
+        return event.preventDefault();
+    } else if (event.code == "ArrowLeft") {
+        game.execute_action(Action.MoveLeft)
+        return event.preventDefault();
+    } else if (event.code == "ArrowRight") {
+        game.execute_action(Action.MoveRight)
+        return event.preventDefault();
+    }
+    // console.log(event.code);
 };
 
 newMap();

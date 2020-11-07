@@ -13,31 +13,35 @@ pub enum Cell {
 }
 
 #[wasm_bindgen]
-pub struct World {
-    width: u32,
-    height: u32,
+#[repr(u8)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Action {
+    MoveUp = 0,
+    MoveDown = 1,
+    MoveLeft = 2,
+    MoveRight = 3,
+}
+
+
+#[wasm_bindgen]
+pub struct Game {
     tiles: Vec<Cell>,
     map: Map,
+    player_pos: Position,
 }
 
 #[wasm_bindgen]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Position {
-    col: usize,
-    row: usize,
+    x: usize,
+    y: usize,
 }
 
 
 #[wasm_bindgen]
-impl World {
+impl Game {
     
-    fn new(width: u32, height: u32, map: Map) -> World {
-        let tiles = (0..map.tiles.len())
-            .map(|i| if map.tiles[i] == TileType::Floor {Cell::Floor} else {Cell::Wall})
-            .collect();
-        World { width, height, tiles, map }
-    }
-
-    pub fn new_simple_rooms(width: u32, height: u32, seed: u32) -> World {
+    pub fn new(width: u32, height: u32, seed: u32) -> Game {
         let mut rng = StdRng::seed_from_u64(seed as u64);
         let map = MapBuilder::new(width as usize, height as usize)
             .with(SimpleRooms::new())
@@ -45,15 +49,19 @@ impl World {
             .with(AreaStartingPosition::new(XStart::LEFT, YStart::TOP))
             .with(DistantExit::new())
             .build_with_rng(&mut rng);
-        World::new(width, height, map)
+        let tiles = (0..map.tiles.len())
+            .map(|i| if map.tiles[i] == TileType::Floor {Cell::Floor} else {Cell::Wall})
+            .collect();
+        let p = map.starting_point.unwrap_or(Point::new(0, 0));
+        Game { tiles, map, player_pos: Position::from_point(&p) }
     }
 
     pub fn width(&self) -> u32 {
-        self.width
+        self.map.width as u32
     }
 
     pub fn height(&self) -> u32 {
-        self.height
+        self.map.height as u32
     }
 
     pub fn tiles(&self) -> *const Cell {
@@ -61,28 +69,61 @@ impl World {
     }
 
     pub fn player_pos(&self) -> Position {
-        let p = self.map.starting_point.unwrap_or(Point::new(0, 0));
-        Position { col: p.x, row: p.y }
+        self.player_pos
     }
 
     pub fn exit_pos(&self) -> Position {
         let p = self.map.exit_point.unwrap_or(Point::new(0, 0));
-        Position { col: p.x, row: p.y }
+        Position { x: p.x, y: p.y }
     }
 
+    pub fn tick(&self) {
+        // Nothing yet
+    }
+
+    pub fn execute_action(&mut self, action: Action) {
+        match action {
+            Action::MoveUp => {
+                if self.map.at(self.player_pos.x, self.player_pos.y-1) == TileType::Floor {
+                    self.player_pos = Position::new(self.player_pos.x, self.player_pos.y-1)
+                }
+            },
+            Action::MoveDown => {
+                if self.map.at(self.player_pos.x, self.player_pos.y+1) == TileType::Floor {
+                    self.player_pos = Position::new(self.player_pos.x, self.player_pos.y+1)
+                }
+            },
+            Action::MoveLeft => {
+                if self.map.at(self.player_pos.x-1, self.player_pos.y) == TileType::Floor {
+                    self.player_pos = Position::new(self.player_pos.x-1, self.player_pos.y)
+                }
+            },
+            Action::MoveRight => {
+                if self.map.at(self.player_pos.x+1, self.player_pos.y) == TileType::Floor {
+                    self.player_pos = Position::new(self.player_pos.x+1, self.player_pos.y)
+                }
+            },
+        }
+    }
 }
 
 #[wasm_bindgen]
 impl Position {
-    pub fn new(col: usize, row: usize) -> Position {
-        Position { col, row }
+    pub fn new(x: usize, y: usize) -> Position {
+        Position { x, y }
     }
 
     pub fn col(&self) -> usize {
-        self.col
+        self.x
     }
     
     pub fn row(&self) -> usize {
-        self.row
+        self.y
+    }
+}
+
+impl Position {
+    pub fn from_point(p: &Point) -> Position {
+        Position::new(p.x, p.y)
     }
 }
