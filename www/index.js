@@ -112,20 +112,20 @@ const drawCells = () => {
 window.addEventListener('keydown', onkeydown, true);
 
 function onkeydown(event) { 
-    if (event.code == "ArrowUp") {
+    if (event.code == "ArrowUp" || event.code == "KeyK") {
         game.execute_action(Action.MoveUp)
         return event.preventDefault();
-    } else if (event.code == "ArrowDown") {
+    } else if (event.code == "ArrowDown" || event.code == "KeyJ") {
         game.execute_action(Action.MoveDown)
         return event.preventDefault();
-    } else if (event.code == "ArrowLeft") {
+    } else if (event.code == "ArrowLeft" || event.code == "KeyH") {
         game.execute_action(Action.MoveLeft)
         return event.preventDefault();
-    } else if (event.code == "ArrowRight") {
+    } else if (event.code == "ArrowRight" || event.code == "KeyL") {
         game.execute_action(Action.MoveRight)
         return event.preventDefault();
     }
-    // console.log(event.code);
+    console.log(event.code);
 };
 
 newMap();
